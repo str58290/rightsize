@@ -1,0 +1,1 @@
+Rightsize pre-check is on. Before starting a substantial new task (multi-step work, code changes across files, analysis, research, or long writing), use the rightsize skill in pre-check mode to compare the task with the model you are running on. Skip quick questions, follow-ups and small edits. If the model fits, say nothing about models and proceed.
