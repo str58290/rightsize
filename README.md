@@ -81,7 +81,7 @@ The first command adds this repository as a plugin source; the second installs R
 Two settings in `/config` let you adjust it:
 
 - **Automatic pre-check**: switch off to keep the subagents but only use Rightsize when you ask.
-- **Refresh the pre-check every N messages** (default 15): how often the reminder is re-added in long sessions. Lower is more reliable, higher is cheaper, and 0 refreshes only at session start and after compaction.
+- **Refresh the pre-check every N messages** (default 15): how often the reminder is re-added in long sessions. Leave it empty to use the default. Lower is more reliable, higher is cheaper, and 0 refreshes only at session start and after compaction.
 
 To update to the latest version:
 

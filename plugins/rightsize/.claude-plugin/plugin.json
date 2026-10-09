@@ -25,8 +25,8 @@
     },
     "refresh_every": {
       "type": "number",
-      "title": "Refresh the pre-check every N messages",
-      "description": "Re-adds the pre-check note every N messages so it doesn't fade in long sessions. Set to 0 to refresh only at session start and after compaction.",
+      "title": "Refresh the pre-check every N messages (default 15)",
+      "description": "Re-adds the pre-check note every N messages so it doesn't fade in long sessions. Leave empty to use the default of 15. Set to 0 to refresh only at session start and after compaction.",      
       "default": 15,
       "min": 0,
       "max": 100
