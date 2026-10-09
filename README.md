@@ -6,63 +6,6 @@ Most people either run everything on the most powerful model (wasting tokens and
 
 It's Claude-only by design, which keeps the recommendations specific and up to date.
 
-## How it works in practice
-
-Rightsize runs as a **pre-check** before substantial tasks. You don't call it.
-
-- **Model fits:** you notice nothing. Claude just does the task.
-- **Model is overpowered:** for a short task, Claude adds one line ("this is a Haiku-level task, you could switch") and continues. For a long or heavy task, it asks before starting, because that's where the savings are.
-- **Model is underpowered:** Claude pauses and suggests a stronger model before starting, because a weak first attempt usually gets redone.
-
-Quick questions, follow-ups and small edits are never checked, and Claude won't raise the same task twice.
-
-### Workflow
-
-```mermaid
-flowchart TD
-    A["<b>Hook runs</b><br/>session start, resume, /clear,<br/>compaction, every 15 messages"] --> B["<b>Pre-check note added to context</b><br/>stays there for later messages"]
-    B --> C(["You send a message"])
-    C --> D{"Substantial<br/>new task?"}
-    D -- No --> E["Just answer"]
-    D -- Yes --> F["<b>Open rightsize, score the task</b><br/>SKILL.md and rubric"]
-    F --> G{"Fits current<br/>model?"}
-    G -- Yes --> H["<b>Do the task</b><br/>no mention of models"]
-    G -- "No: overpowered,<br/>short task" --> I["<b>Note it, then continue</b>"]
-    G -- "No: underpowered, or<br/>overpowered on a long task" --> J["<b>Recommend, then wait</b>"]
-    J --> K["<b>You decide</b><br/>switch, delegate or continue"]
-
-    classDef neutral fill:#F1EFE8,stroke:#5F5E5A,color:#2C2C2A
-    classDef skill fill:#EEEDFE,stroke:#534AB7,color:#26215C
-    classDef proceed fill:#E1F5EE,stroke:#0F6E56,color:#04342C
-    classDef flag fill:#FAECE7,stroke:#993C1D,color:#4A1B0C
-    class A,C,E,K neutral
-    class B,D,F,G skill
-    class H proceed
-    class I,J flag
-```
-
-The top two steps happen only at the moments listed; everything from "You send a message" down repeats for every message. In Claude.ai there are no hooks, so the preferences line you paste during setup takes the place of the note.
-
-You can also ask directly ("which model should I use for this?") for a full recommendation, or for a setting per step in a multi-step workflow:
-
-```
-Recommendation: Sonnet 5.5 at medium effort
-Why: Long input, but the task is summarising, not deep reasoning.
-Step down if: The brief is for your own use only.
-Step up if: The summary must weigh conflicting sections or go to a client.
-How to set it: Choose Sonnet in the model picker.
-```
-
-## What's included
-
-| Component | Works in | What it does |
-|---|---|---|
-| `rightsize` skill | Claude.ai, Claude Code | The pre-check, plus full recommendations on request |
-| Session hooks | Claude Code | Turn the pre-check on automatically: at session start, after `/clear` and compaction, and again every 15 messages so it never fades in long sessions |
-| Tiered subagents | Claude Code | `light-worker` (Haiku, low), `standard-worker` (Sonnet, medium), `deep-worker` (Opus, high), so Claude Code can delegate each sub-task at the right cost |
-| Rubric | Everywhere | The shared scoring logic in `plugins/rightsize/skills/rightsize/references/rubric.md` |
-| Benchmark | Contributors | Test tasks and a method for checking the rubric against real results |
-
 ## Install
 
 Rightsize works in Claude Code and Claude.ai. Pick the one you use, or set up both.
@@ -119,6 +62,63 @@ claude --plugin-dir ./plugins/rightsize
 ```
 
 This starts Claude Code with the plugin loaded from your local copy, so your edits take effect without reinstalling. To package the skill for Claude.ai yourself, zip the `plugins/rightsize/skills/rightsize` folder.
+
+## How it works in practice
+
+Rightsize runs as a **pre-check** before substantial tasks. You don't call it.
+
+- **Model fits:** you notice nothing. Claude just does the task.
+- **Model is overpowered:** for a short task, Claude adds one line ("this is a Haiku-level task, you could switch") and continues. For a long or heavy task, it asks before starting, because that's where the savings are.
+- **Model is underpowered:** Claude pauses and suggests a stronger model before starting, because a weak first attempt usually gets redone.
+
+Quick questions, follow-ups and small edits are never checked, and Claude won't raise the same task twice.
+
+### Workflow
+
+```mermaid
+flowchart TD
+    A["<b>Hook runs</b><br/>session start, resume, /clear,<br/>compaction, every 15 messages"] --> B["<b>Pre-check note added to context</b><br/>stays there for later messages"]
+    B --> C(["You send a message"])
+    C --> D{"Substantial<br/>new task?"}
+    D -- No --> E["Just answer"]
+    D -- Yes --> F["<b>Open rightsize, score the task</b><br/>SKILL.md and rubric"]
+    F --> G{"Fits current<br/>model?"}
+    G -- Yes --> H["<b>Do the task</b><br/>no mention of models"]
+    G -- "No: overpowered,<br/>short task" --> I["<b>Note it, then continue</b>"]
+    G -- "No: underpowered, or<br/>overpowered on a long task" --> J["<b>Recommend, then wait</b>"]
+    J --> K["<b>You decide</b><br/>switch, delegate or continue"]
+
+    classDef neutral fill:#F1EFE8,stroke:#5F5E5A,color:#2C2C2A
+    classDef skill fill:#EEEDFE,stroke:#534AB7,color:#26215C
+    classDef proceed fill:#E1F5EE,stroke:#0F6E56,color:#04342C
+    classDef flag fill:#FAECE7,stroke:#993C1D,color:#4A1B0C
+    class A,C,E,K neutral
+    class B,D,F,G skill
+    class H proceed
+    class I,J flag
+```
+
+The top two steps happen only at the moments listed; everything from "You send a message" down repeats for every message. In Claude.ai there are no hooks, so the preferences line you paste during setup takes the place of the note.
+
+You can also ask directly ("which model should I use for this?") for a full recommendation, or for a setting per step in a multi-step workflow:
+
+```
+Recommendation: Sonnet 5.5 at medium effort
+Why: Long input, but the task is summarising, not deep reasoning.
+Step down if: The brief is for your own use only.
+Step up if: The summary must weigh conflicting sections or go to a client.
+How to set it: Choose Sonnet in the model picker.
+```
+
+## What's included
+
+| Component | Works in | What it does |
+|---|---|---|
+| `rightsize` skill | Claude.ai, Claude Code | The pre-check, plus full recommendations on request |
+| Session hooks | Claude Code | Turn the pre-check on automatically: at session start, after `/clear` and compaction, and again every 15 messages so it never fades in long sessions |
+| Tiered subagents | Claude Code | `light-worker` (Haiku, low), `standard-worker` (Sonnet, medium), `deep-worker` (Opus, high), so Claude Code can delegate each sub-task at the right cost |
+| Rubric | Everywhere | The shared scoring logic in `plugins/rightsize/skills/rightsize/references/rubric.md` |
+| Benchmark | Contributors | Test tasks and a method for checking the rubric against real results |
 
 ## How the scoring works
 
