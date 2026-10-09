@@ -1,0 +1,35 @@
+{
+  "name": "rightsize",
+  "displayName": "Rightsize",
+  "version": "0.1.2",
+  "description": "Automatically checks whether the current Claude model fits each substantial task and flags when a cheaper or stronger one would be better. Includes tiered subagents (Haiku / Sonnet / Opus) for delegating work at the right cost.",
+  "author": {
+    "name": "Tai Rong",
+    "url": "https://github.com/str58290"
+  },
+  "repository": "https://github.com/str58290/rightsize",
+  "license": "MIT",
+  "keywords": [
+    "model-selection",
+    "effort",
+    "cost",
+    "tokens",
+    "routing"
+  ],
+  "userConfig": {
+    "auto_precheck": {
+      "type": "boolean",
+      "title": "Automatic pre-check",
+      "description": "Check whether the current model fits each substantial task before starting it. Turn off to use rightsize only when you ask.",
+      "default": true
+    },
+    "refresh_every": {
+      "type": "number",
+      "title": "Refresh the pre-check every N messages",
+      "description": "Re-adds the pre-check note every N messages so it doesn't fade in long sessions. Set to 0 to refresh only at session start and after compaction.",
+      "default": 15,
+      "min": 0,
+      "max": 100
+    }
+  }
+}

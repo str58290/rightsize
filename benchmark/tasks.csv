@@ -1,0 +1,16 @@
+id,category,task,reasoning,context,stakes,ambiguity,horizon,total,predicted_model,predicted_effort
+T01,transform,"Convert this list of 40 contacts from 'Last, First' to 'First Last' and output CSV",0,0,0,0,0,0,haiku-5-5,low
+T02,transform,"Translate a 200-word product description from English to Malay",0,0,1,0,0,1,haiku-5-5,low
+T03,extraction,"Pull every date, amount and invoice number out of 10 pasted invoices into a table",0,1,1,0,0,2,haiku-5-5,low
+T04,chat,"Explain the difference between a Roth and traditional IRA in plain language",1,0,0,0,0,1,haiku-5-5,low
+T05,writing,"Draft a polite follow-up email to a supplier about a late delivery",1,0,1,0,0,2,haiku-5-5,low
+T06,summary,"Summarise a 60-page policy document into a one-page brief for internal use",1,2,1,0,0,4,sonnet-5-5,medium
+T07,writing,"Write a 1,500-word blog post on remote-work trends from three provided sources",1,1,1,1,0,4,sonnet-5-5,medium
+T08,coding,"Add input validation and unit tests to an existing, well-documented API endpoint",1,1,1,0,1,4,sonnet-5-5,medium
+T09,analysis,"Analyse a 5,000-row sales CSV and identify the top three drivers of Q3 decline",2,1,1,1,1,6,sonnet-5-5,high
+T10,writing,"Prepare a client-facing proposal for a new service, based on meeting notes",1,1,2,1,0,5,sonnet-5-5,high
+T11,coding,"Find why a payment webhook intermittently double-charges customers in production",2,2,2,1,1,8,opus-5-5,high
+T12,strategy,"Recommend whether to build or buy a CRM, given budget, team size and integration needs",2,1,2,2,0,7,opus-5-5,high
+T13,coding,"Refactor authentication across a 200-file monorepo to a new session library",2,2,2,1,2,9,opus-5-5,xhigh
+T14,research,"Research the regional EV charging market and produce a full market-entry report with sources",2,2,1,2,2,9,fable-5-1,high
+T15,agentic,"Autonomously migrate a legacy service from Python 2 to Python 3, running tests until they pass",2,2,2,1,2,9,opus-5-5,xhigh

@@ -1,0 +1,14 @@
+{
+  "name": "rightsize",
+  "owner": {
+    "name": "Tai Rong"
+  },
+  "plugins": [
+    {
+      "name": "rightsize",
+      "source": "./plugins/rightsize",
+      "description": "Automatically checks whether the current Claude model fits each substantial task, plus tiered subagents for delegating work at the right cost.",
+      "version": "0.1.2"
+    }
+  ]
+}

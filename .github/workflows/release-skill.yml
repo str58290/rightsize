@@ -1,0 +1,55 @@
+# Builds the Claude.ai download and attaches it to each GitHub release.
+#
+# When you publish a release, this workflow:
+#   1. checks the release tag matches the version in plugin.json and marketplace.json
+#   2. zips the skill folder as rightsize-skill.zip
+#   3. attaches the ZIP to the release
+#
+# The README's download link points to rightsize-skill.zip in the latest
+# release, so keep the file name unchanged.
+
+name: Attach skill ZIP to release
+
+on:
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+jobs:
+  build-skill-zip:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out the release
+        uses: actions/checkout@v4
+
+      - name: Check versions match the release tag
+        run: |
+          TAG="${{ github.event.release.tag_name }}"
+          TAG_VERSION="${TAG#v}"
+          PLUGIN_VERSION=$(python3 -c "import json; print(json.load(open('plugins/rightsize/.claude-plugin/plugin.json'))['version'])")
+          MARKET_VERSION=$(python3 -c "import json; print(json.load(open('.claude-plugin/marketplace.json'))['plugins'][0]['version'])")
+          echo "Release tag: $TAG_VERSION | plugin.json: $PLUGIN_VERSION | marketplace.json: $MARKET_VERSION"
+          if [ "$TAG_VERSION" != "$PLUGIN_VERSION" ] || [ "$TAG_VERSION" != "$MARKET_VERSION" ]; then
+            echo "::error::Version mismatch. Update both version fields to $TAG_VERSION, or fix the release tag."
+            exit 1
+          fi
+
+      - name: Check the skill folder is complete
+        run: |
+          for f in SKILL.md references/rubric.md references/models.md; do
+            test -f "plugins/rightsize/skills/rightsize/$f" || { echo "::error::Missing $f"; exit 1; }
+          done
+
+      - name: Build rightsize-skill.zip
+        run: |
+          cd plugins/rightsize/skills
+          zip -r "$GITHUB_WORKSPACE/rightsize-skill.zip" rightsize
+          cd "$GITHUB_WORKSPACE"
+          unzip -l rightsize-skill.zip
+
+      - name: Attach the ZIP to the release
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: gh release upload "${{ github.event.release.tag_name }}" rightsize-skill.zip --clobber
