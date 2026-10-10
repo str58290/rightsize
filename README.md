@@ -42,7 +42,7 @@ To uninstall:
 
 1. **Enable code execution.** Skills need it. On Free, Pro and Max plans, go to **Settings > Capabilities** and turn on **Code execution and file creation**. On Team and Enterprise plans, your organization owner controls whether skills are available.
 2. **Download the skill.** Get [`rightsize-skill.zip`](https://github.com/str58290/rightsize/releases/latest/download/rightsize-skill.zip) from the [latest release](https://github.com/str58290/rightsize/releases/latest). Don't unzip it.
-3. **Upload it.** In Claude.ai, open the Skills section of your settings, choose to upload a skill, and select the ZIP file. Check that Rightsize is toggled on. Uploaded skills are private to your account.
+3. **Upload it.** In Claude.ai, open **Settings** and find **Skills** , choose to upload a skill, and select the ZIP file. Check that Rightsize is toggled on. Uploaded skills are private to your account.
 4. **Turn on the automatic pre-check.** In Claude.ai, open **Settings** and find **Instructions for Claude** (on some accounts it's called "personal preferences", under "What personal preferences should Claude consider in responses?"). Searching Settings for "instructions" is the quickest way to find it. Paste this line and save:
 
    > Before starting any substantial new task, run the rightsize skill's pre-check. If my current model fits, don't mention it.
